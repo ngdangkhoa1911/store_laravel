@@ -2,7 +2,9 @@
 
 
 ## Source code test
+<p>URL để test: http://localhost/mystore/list</p>
+<p>
+Database được lưu trong: /store_laravel/product.sql</p>
+<p>Giao diện website được lưu trong file view của project</p>
 
-URL để test: http://localhost/mystore/list
-Database được lưu trong: /store_laravel/product.sql
-Giao diện website được lưu trong file view của project
+
