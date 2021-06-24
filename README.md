@@ -29,27 +29,38 @@
 1. Các file tự động tạo khi cài đặt laravel sẽ được copy ra ngoài đường dẫn app/
 2. Trong thư mục public bây giờ sẽ bao gồm:
 ![image](https://user-images.githubusercontent.com/62826665/123197103-3f4c0000-d4d5-11eb-83a8-1bf7bb93766d.png)
-
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+3. Ngoài ra trong thư mực `resources/views` sẽ gồm 1 trang chính (trang chủ) là layout.blade.php và 2 trang con được kế thừa từ trang layout trong` views/pages `gồm: detail.blade.php và list.blade.php.
+4. Việc kế thừa các trang con sẽ thông qua cú pháp
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+        @extends('layout')
+        @section('content')
+            Các thẻ cần được hiển thị
+        @endsection
    ```
-3. Install NPM packages
+5. Thay đổi lại liên kết file css và js được lưu trong folder public/frontend 
    ```sh
-   npm install
+         <link rel="stylesheet" href="{{URL::asset('public/frontend/css/style.css')}}">
+        <script src="{{URL::asset('public/frontend/js/main.js')}}"></script>
    ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
+6. Sử dụng fontawesome thông qua cloudflare và bootstrap 4
+### Controller để điều khiển các view
+
+1. Trong thư mục `app/Http/Controllers` tạo một ListController bằng git bash theo câu lệnh
+    ```sh
+        php artisan make:controller ListController
+    ```
+2. Tạo một function index() để trả về view của list.blade.php
+   ```sh
+        public function index(){
+            return view ('pages.list');
+        }
    ```
+3. Ở thư mục routes sẽ có một fie web.php, sử dụng để thiết lập một đường dẫn `\list` và gọi function vừa mới tạo trong ListController 
+   ```sh
+        Route::get('/list', 'App\Http\Controllers\ListController@index');
+   ```
+4. Trong `layout.blade.php` chỉ cần gọi `yeild('content')` tại vị trí hiển thị 2 view kế thừa
+ 
 
 
 
