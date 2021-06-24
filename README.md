@@ -78,56 +78,63 @@ Tiếp tục sửa tương tự trong file `\config\database.php`.
 
 
 ## Đổ dữ liệu vào list.blade.php
-Trong `ListControler.php` chạy đoạn mã để kết nối cơ sở dữ liệu:
-    ```sh
-        use Illuminate\Http\Request;
-        use DB;
-        use Session;
-        use App\Http\Requests;
-        use Illuminate\Support\Facades\Redirect;
-        session_start();
-    ```
-Để hiển thị và đồng thời trả về view cho `list.blade.php`:
-    ```sh
-        public function show(){
+Trong `ListControler.php` chạy đoạn mã để kết nối cơ sở dữ liệu
+```sh
+    use Illuminate\Http\Request;
+    use DB;
+    use Session;
+    use App\Http\Requests;
+    use Illuminate\Support\Facades\Redirect;
+    session_start();
+```
+Để hiển thị và đồng thời trả về view cho `list.blade.php` ở đây dùng câu lệnh select để lấy hết các cột trong bảng product_list và đặt tên cho câu select này là `product`.
+```sh
+    public function show(){
         $product = DB::select('select * from product_list');
         return view('pages.list') -> with('product', $product);
-        }
-    ```
+    }
+```     
+Gọi route để chạy function
+```sh
+    Route::get('/list', 'App\Http\Controllers\ListController@show');
+```
+Trong file `list.blade.php` sẽ chạy một dòng `foreach($product as $item) :` để duyệt qua lần lượt từng dòng và để gán các giá trị vào các thẻ. Dùng vòng lặp để lặp lại nhiều sản phẩm và tự sinh các thẻ `div`, gán giá trị bằng cú pháp `{{$item -> tên cột}}`
+```sh
+    <img src="{{$item -> img}}" alt="">
+    <h6>{{ $item -> name}}</h6>
+    <h5>{{ $item -> price}}</h5>
+```
+    
 
-<!-- CONTRIBUTING -->
-## Contributing
+## Liên kết dựa vào id và đổ dữ liệu vào detail.blade.php   
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
+Cũng trong `ListController.php` ở dây trong function `viewDetail()` sẽ truyền vào một biến id để phân biệt các phần tử trong `list.blade.php` khi chúng ta onclick, data ở đây cũng sẽ lấy dựa theo id đầu vào và trả về view `detail.blade.php`.
+```sh
+     public function viewDetail($id){
+        $data = DB::table('product_list')->where('id', $id)->first();
+        return view('pages.detail') ->with('product_detail', $data);
+    }
+```
+Tiếp tục gọi route để chạy function nhưng mà lần này sẽ gán tên là show và nhận id cho đường link
+```sh
+    Route::get('/detail/{id}', 'App\Http\Controllers\ListController@viewDetail') -> name('show');
+```
+Ở trong file `list.blade.php`sẽ có một đường dẫn 'Chi tiết sản phẩm' với vòng lệnh foreach hồi nãy thì bây giờ với mỗi lần duyệt qua ta sẽ gán cho thẻ a này một cái id và khi click vào id đó thì nó sẽ dẫn đến câu lệnh điều kiện `where('id', '$id')` hồi nãy chúng ta tạo trong function.
+```sh
+     <a href="{{URL::route('show',['id' => $item ->id])}}" style="color: grey">Chi tiết sản phẩm</a>
+```
+Trong `detail.blade.php` tiến hành đổ dữ liệu từ function `viewDetail()` tương tự như `list.blade.php` 
 
 
 ## Source code test
-<p>URL để test: http://localhost/mystore/list</p>
-<p>
-Database được lưu trong: /store_laravel/product.sql</p>
-<p>Giao diện website được lưu trong file view của project: /store_laravel/resources/views/</p>
+URL để test: 
+```sh
+    http://localhost/mystore/list
+```
+Database được lưu trong:
+```sh
+    /store_laravel/product.sql
+```
+
 
 
