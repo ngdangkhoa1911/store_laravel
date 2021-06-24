@@ -43,6 +43,8 @@
         <script src="{{URL::asset('public/frontend/js/main.js')}}"></script>
    ```
 6. Sử dụng fontawesome thông qua cloudflare và bootstrap 4
+
+
 ### Controller để điều khiển các view
 
 1. Trong thư mục `app/Http/Controllers` tạo một ListController bằng git bash theo câu lệnh
@@ -62,23 +64,36 @@
 4. Trong `layout.blade.php` chỉ cần gọi `yeild('content')` tại vị trí hiển thị 2 view kế thừa
  
 
+## Database 
+
+Tạo một bảng `product_list` với database là `product` gổm ID, tên sản phẩm, mô tả, hình ảnh và giá cả.
+
+![image](https://user-images.githubusercontent.com/62826665/123199753-a8ce0d80-d4d9-11eb-8032-c426d9dce070.png)
+
+Trong file `.env` thay đổi tên database và các port sử dụng, điền username và password nếu có (Ở đây dùng root là vì dùng mặc định).
+![image](https://user-images.githubusercontent.com/62826665/123200055-3b6eac80-d4da-11eb-97e7-dcff5da8428f.png)
+
+Tiếp tục sửa tương tự trong file `\config\database.php`.
+![image](https://user-images.githubusercontent.com/62826665/123200168-6fe26880-d4da-11eb-8633-a6fe1b1df8f4.png)
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
-
-
+## Đổ dữ liệu vào list.blade.php
+Trong `ListControler.php` chạy đoạn mã để kết nối cơ sở dữ liệu:
+    ```sh
+        use Illuminate\Http\Request;
+        use DB;
+        use Session;
+        use App\Http\Requests;
+        use Illuminate\Support\Facades\Redirect;
+        session_start();
+    ```
+Để hiển thị và đồng thời trả về view cho `list.blade.php`:
+    ```sh
+        public function show(){
+        $product = DB::select('select * from product_list');
+        return view('pages.list') -> with('product', $product);
+        }
+    ```
 
 <!-- CONTRIBUTING -->
 ## Contributing
