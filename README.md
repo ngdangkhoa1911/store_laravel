@@ -26,7 +26,10 @@
  
 ### Thay đổi view mặc định của laravel
 
-This is an example of how to list things you need to use the software and how to install them.
+1. Các file tự động tạo khi cài đặt laravel sẽ được copy ra ngoài đường dẫn app/
+2. Trong thư mục public bây giờ sẽ bao gồm:
+![image](https://user-images.githubusercontent.com/62826665/123197103-3f4c0000-d4d5-11eb-83a8-1bf7bb93766d.png)
+
 * npm
   ```sh
   npm install npm@latest -g
