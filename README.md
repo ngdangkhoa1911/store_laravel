@@ -13,14 +13,18 @@
 
 <!-- GETTING STARTED -->
 ## Các cài đặt trước
-Cài đặt gói phần mềm XAMPP bao gồm webserver Apache, PHP, MySQL
-Sử dụng đường dẫn để thực thi project:
+1. Cài đặt gói phần mềm XAMPP bao gồm webserver Apache, PHP, MySQL
+2. Sử dụng đường dẫn để thực thi project:
 ```sh
  http://localhost
   ```
- Cài đặt Composer từ file Composer-Setup.exe
+3. Cài đặt Composer từ file Composer-Setup.exe
+4. Cài đặt Laravel và tạo một project laravel store_laravel
+ ```sh
+  $ composer create-project --prefer-dist laravel/laravel store_laravel
+  ```
  
-### Prerequisites
+### Thay đổi view mặc định của laravel
 
 This is an example of how to list things you need to use the software and how to install them.
 * npm
